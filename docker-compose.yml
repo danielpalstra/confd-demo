@@ -1,0 +1,20 @@
+version: "2"
+services:
+  app:
+    image: alpine:latest
+    command: /bin/sh -c "while true; do cat /etc/config/*; sleep 3; done"
+    volumes_from:
+      - confd-env
+  confd-env:
+    build:
+      context: .
+    environment:
+      - MYAPP_DATABASE_URL=db.example.com
+      - MYAPP_DATABASE_USER=rob
+    volumes:
+      - confd:/etc/confd
+  # confd-consult:
+  #   image: danielpalstra/confd-demo:latest
+  #   command: /bin/confd -backend consul
+volumes:
+  confd:
