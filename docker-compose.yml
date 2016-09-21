@@ -1,20 +1,28 @@
 version: "2"
 services:
-  app:
-    image: alpine:latest
-    command: /bin/sh -c "while true; do cat /etc/config/*; sleep 3; done"
-    volumes_from:
-      - confd-env
-  confd-env:
+  consul:
+    image: consul
+    container_name: consul
+    hostname: consul
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:53"
+    networks:
+      - consul
+  consul-sidekick:
+    image: appropriate/curl
+    depends_on:
+      - consul
+    command: sh /provision-consul.sh
+    volumes:
+      - ${PWD}/sidekick/provision-consul.sh:/provision-consul.sh
+    networks:
+      - consul
+  confd:
     build:
       context: .
-    environment:
-      - MYAPP_DATABASE_URL=db.example.com
-      - MYAPP_DATABASE_USER=rob
-    volumes:
-      - confd:/etc/confd
-  # confd-consult:
-  #   image: danielpalstra/confd-demo:latest
-  #   command: /bin/confd -backend consul
-volumes:
-  confd:
+    image: danielpalstra/confd
+    command: /bin/true
+networks:
+  consul:

@@ -1,0 +1,16 @@
+version: "2"
+services:
+  app:
+    image: alpine:latest
+    command: /bin/sh -c "while true; do cat /etc/config/*; sleep 3; done"
+    volumes_from:
+      - confd
+  confd:
+    image: danielpalstra/confd
+    command: /bin/confd -backend consul -node consul:8500
+    networks:
+      - consul
+volumes:
+  confd:
+networks:
+  consul:
