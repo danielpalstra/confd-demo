@@ -7,7 +7,7 @@ services:
       - confd
   confd:
     image: danielpalstra/confd
-    command: /bin/confd -backend consul -node consul:8500
+    command: /bin/confd -watch -backend consul -node consul:8500
     networks:
       - consul
 volumes:
