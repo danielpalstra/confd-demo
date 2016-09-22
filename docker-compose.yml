@@ -22,7 +22,7 @@ services:
   confd:
     build:
       context: .
-    image: danielpalstra/confd
+    image: danielpalstra/confd-demo
     command: /bin/true
 networks:
   consul:

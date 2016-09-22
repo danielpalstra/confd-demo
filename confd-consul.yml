@@ -6,7 +6,7 @@ services:
     volumes_from:
       - confd
   confd:
-    image: danielpalstra/confd
+    image: danielpalstra/confd-demo
     command: /bin/confd -watch -backend consul -node consul:8500
     networks:
       - consul

@@ -6,6 +6,7 @@ services:
     volumes_from:
       - confd
   confd:
+    # image: danielpalstra/confd-demo
     build:
       context: .
     environment:
